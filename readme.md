@@ -34,16 +34,16 @@ go mod tidy
 ```
 4. Build uberbot
 ```shell
-go build 
+cmd/uberbot/build.sh
 ```
-5. Create a .env file and add these lines to it
+5. Create a .env file in the root directory and add these lines to it
 ```shell
 UBERBOT_TOKEN=<discordtoken>
 ADMIN_IDS=<yourdiscordid>
 ```
 6. Run uberbot
 ```shell
-./uberbot
+cmd/uberbot/uberbot
 ```
 
 ## Contributing
