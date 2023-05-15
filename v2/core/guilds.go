@@ -11,32 +11,14 @@ import (
 // guilds.go
 // This file contains the structure of a guild, and all the functions used to store and retrieve guild information
 
-type Union interface {
-	string | bool | int64
-}
-
-type Interface[K comparable, V any] interface {
-	Get(key K) (value V, ok bool)
-	Set(key K, val V)
-	Keys() []K
-	Delete(key K)
-}
-type StorageItem[K comparable, V any] struct {
-	Key   K
-	Value V
-}
-type Storage[K comparable, V any] struct {
-	storage Interface[K, *StorageItem[K, V]]
-}
-
 // GuildInfo
 // This is all the settings and data that needs to be stored about a single guild.
 type GuildInfo struct {
-	AddedDate         int64
-	Prefix            string
+	AddedDate         int64    // The date the bot was added to the server
+	AllowedUsageIDs   []string `json:"whitelistIds"` // List of user/role Ids that a user MUST have one of in order to run any commands, including public ones
+	Prefix            string   // The bot prefix
+	ModeratorIDs      []string // The list of user/role IDs allowed to run mod-only commands
 	ResponseChannelID string
-	ModeratorIds      []string
-	//Storage           Storage[string, Union]
 }
 
 // NewGuildInfo
@@ -165,3 +147,5 @@ func SetInitProvider(provider func() GuildProvider) {
 func (g *Guild) save() {
 	currentProvider.Save(g)
 }
+
+// Guild Helpers

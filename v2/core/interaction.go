@@ -142,7 +142,6 @@ func handleInteractionCommand(s *discordgo.Session, i *discordgo.InteractionCrea
 	g := GetGuild(i.GuildID)
 
 	trigger := i.ApplicationCommandData().Name
-	//if !IsAdmin(i.Member.User.ID) {
 	//	// Ignore the command if it is globally disabled
 	//	if g.IsGloballyDisabled(trigger) {
 	//		ErrorResponse(i.Interaction, "Command is globally disabled", trigger)
@@ -164,29 +163,28 @@ func handleInteractionCommand(s *discordgo.Session, i *discordgo.InteractionCrea
 	//	if !g.ChannelIsWhitelisted(i.ChannelID) || g.ChannelIsIgnored(i.ChannelID) {
 	//		return
 	//	}
-	//}
 
 	command := commands[trigger]
-	//if IsAdmin(i.Member.User.ID) || command.Info.Public || g.IsMod(i.Member.User.ID) {
-	// Check if the command is public, or if the current user is a bot moderator
-	// Bot admins supercede both checks
+	if IsAdmin(i.Member.User.ID) || command.Info.Public || g.IsMod(i.Member.User.ID) {
+		// Check if the command is public, or if the current user is a bot moderator
+		// Bot admins supercede both checks
 
-	defer handleInteractionError(*i.Interaction)
-	command.Function(&CmdContext{
-		Guild:       g,
-		Cmd:         command.Info,
-		Args:        *ParseInteractionArgs(i.ApplicationCommandData().Options),
-		Interaction: i.Interaction,
-		Message: &discordgo.Message{
-			Member:    i.Member,
-			Author:    i.Member.User,
-			ChannelID: i.ChannelID,
-			GuildID:   i.GuildID,
-			Content:   "",
-		},
-	})
-	return
-	//}
+		defer handleInteractionError(*i.Interaction)
+		command.Function(&CmdContext{
+			Guild:       g,
+			Cmd:         command.Info,
+			Args:        *ParseInteractionArgs(i.ApplicationCommandData().Options),
+			Interaction: i.Interaction,
+			Message: &discordgo.Message{
+				Member:    i.Member,
+				Author:    i.Member.User,
+				ChannelID: i.ChannelID,
+				GuildID:   i.GuildID,
+				Content:   "",
+			},
+		})
+		return
+	}
 }
 
 func handleMessageComponents(s *discordgo.Session, i *discordgo.InteractionCreate) {

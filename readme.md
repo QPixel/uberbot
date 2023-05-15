@@ -9,11 +9,15 @@ Some main features of uberbot are moderation and meme like functions
 
 ## Dependencies
 * Go 1.18
-* OrderedMap
+* OrderedMap (being deprecated)
 * godotenv
 * [tinylog](https://github.com/ubergeek77/tinylog)
 
 ## Development
+
+> While the guild storage mechanism is abstracted for other storage types (DBs). I have no plans to include database support in the V2 of uberbot.
+
+> Windows support does not exist on this version of uberbot. This is a deliberate choice, as the core maintainers do not use windows to develop on. Please use WSL or some POSIX (or semi posix) based OS in order to develop and run the bot.
 
 ### Setup
 Make sure you have an ssh key attached to github and have configured it with git. Please also have a gpg key that works with git and can sign commits.
